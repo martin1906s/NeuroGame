@@ -376,6 +376,7 @@ def show_game_over_screen_snake(score, level):
         pygame.time.delay(30)
 
 # Menú principal
+# Menú principal
 def show_game_selection():
     global current_theme
     current_theme = "Neon"  # Tema inicial para el menú
@@ -384,6 +385,7 @@ def show_game_selection():
     snake_button = pygame.Rect(WIDTH//2 - 150, HEIGHT//2 - 100, 300, 50)
     blocks_button = pygame.Rect(WIDTH//2 - 150, HEIGHT//2 + 50, 300, 50)
     theme_rect = pygame.Rect(WIDTH//2 - 100, HEIGHT//2 + 150, 200, 50)
+    support_rect = pygame.Rect(WIDTH//2 - 100, HEIGHT - 100, 200, 50)  # Botón de soporte
     while True:
         screen.fill(THEMES["Neon"]["bg"])
         screen.blit(title_text, (WIDTH//2 - title_text.get_width()//2, HEIGHT//3))
@@ -396,6 +398,12 @@ def show_game_selection():
         if draw_button(screen, f"Tema Snake: {current_theme}", theme_rect, (100, 100, 100), (150, 150, 150)):
             if pygame.mouse.get_pressed()[0]:
                 current_theme = "Retro" if current_theme == "Neon" else "Neon"
+        # Botón de soporte
+        if draw_button(screen, "Soporte", support_rect, (100, 100, 200), (150, 150, 250)):
+            if pygame.mouse.get_pressed()[0]:
+                import webbrowser
+                webbrowser.open("https://neurogame.vercel.app/support")
+                pygame.time.wait(200)  # Evitar múltiples clics rápidos
         pygame.display.flip()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
