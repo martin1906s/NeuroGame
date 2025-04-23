@@ -9,16 +9,11 @@ Videojuego de rehabilitación para personas con dificultades motrices
 
 ## Instalación
 
-Instalar proyecto con bash
-
-```bash
-  git clone https://github.com/martin1906s/NeuroGame.git
-  cd app
-```
 
 Instalar dependencias con power shell
 
 ```ps
+  cd NeuroGame
   pip install mediapipe
   pip install pygame
   pip install numpy
