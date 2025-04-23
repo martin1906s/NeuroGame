@@ -375,7 +375,39 @@ def show_game_over_screen_snake(score, level):
         pygame.display.flip()
         pygame.time.delay(30)
 
-# Menú principal
+# Nueva función para la pantalla de bienvenida
+def show_welcome_screen():
+    try:
+        # Intentar cargar la imagen
+        welcome_image = pygame.image.load("interfazHome.jpg")
+        welcome_image = pygame.transform.scale(welcome_image, (WIDTH, HEIGHT))
+    except pygame.error:
+        # Si no se puede cargar la imagen, crear una pantalla de bienvenida simple
+        welcome_image = pygame.Surface((WIDTH, HEIGHT))
+        welcome_image.fill(THEMES["Neon"]["bg"])
+        title_font = pygame.font.SysFont('Arial', 80, bold=True)
+        subtitle_font = pygame.font.SysFont('Arial', 40)
+        title_text = title_font.render("Bienvenido a Juegos Combinados", True, (255, 255, 255))
+        subtitle_text = subtitle_font.render("Presiona ESPACIO para continuar", True, (200, 200, 200))
+        title_rect = title_text.get_rect(center=(WIDTH//2, HEIGHT//3))
+        subtitle_rect = subtitle_text.get_rect(center=(WIDTH//2, HEIGHT//2 + 100))
+        welcome_image.blit(title_text, title_rect)
+        welcome_image.blit(subtitle_text, subtitle_rect)
+
+    waiting = True
+    start_time = time.time()
+    max_duration = 5  # Mostrar la pantalla durante 5 segundos como máximo
+    while waiting and (time.time() - start_time) < max_duration:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_SPACE:
+                waiting = False
+        screen.blit(welcome_image, (0, 0))
+        pygame.display.flip()
+        pygame.time.delay(30)
+
 # Menú principal
 def show_game_selection():
     global current_theme
@@ -416,6 +448,7 @@ def show_game_selection():
                 elif blocks_button.collidepoint(event.pos):
                     current_theme = "Clásico"  # Tema inicial para Bloques
                     return "blocks"
+
 # Juego de bloques
 def play_blocks():
     global current_theme, difficulty, zone_glow_alpha, zone_pulse_direction, target_block_ghost
@@ -668,6 +701,7 @@ def main():
     global current_theme
     current_theme = "Neon"
     while True:
+        show_welcome_screen()
         selected_game = show_game_selection()
         if selected_game == "snake":
             play_snake()
